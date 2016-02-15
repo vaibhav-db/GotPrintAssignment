@@ -32,4 +32,26 @@ public class NotesAppDaoImpl implements NotesAppDao {
 		return null;
 
 	}
+	
+	public User getUserDetail(final long UserId) {
+		Session session = HibernateUtil.getSessionFactory().openSession();
+
+		List<User> users = session.createCriteria(User.class)
+				.add(Restrictions.eq("userId", UserId)).list();
+		if (users != null && !users.isEmpty()) {
+			return  users.get(0);
+		}
+
+		return null;
+	}
+	
+	public void addUserNotes(final Note note) {
+		Session session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+        session.save(note );
+        session.getTransaction().commit();
+	}
+
+
+	
 }
