@@ -30,7 +30,7 @@ public class UserNotesService {
 	/**
 	 * Get User all notes 
 	 * URL GET : /GotPrintUserNoteApplication/rest/userNotesService/getUserNotes/{param}
-	 * 
+	 * HEADER : Authorization:gotprint:xxxxxx
 	 * @param userId
 	 * @return  user Notes in JSON format
 	 */
@@ -54,6 +54,7 @@ public class UserNotesService {
 				//No user data found for give user id
 				throw new NotesNotFoundException("{exception:User notes not found}");
 			}
+			
 	}
 
 }
