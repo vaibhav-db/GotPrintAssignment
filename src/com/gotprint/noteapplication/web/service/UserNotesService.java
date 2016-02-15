@@ -151,7 +151,7 @@ public class UserNotesService {
 	/**
 	 * <p>
 	 * Delete user Note < br/>
-	 * URL /GotPrintUserNoteApplication/rest/userNotesService/deleteUserNote/1 < br />
+	 * URL /GotPrintUserNotesAssignment/rest/userNotesService/deleteUserNote/1 < br />
 	 * @param userId < br/>
 	 * @POST param note  e.g. {"noteId":1}
 	 * < br />
