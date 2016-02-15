@@ -12,5 +12,9 @@ public interface NotesAppDao {
 	public User getUserDetail(final long UserId) ;
 	
 	public void addUserNotes(final Note note) ;
+	
+	public void updateUserNotes(final Note note) ;
+	
+	public Note getNote(long userId, long noteId) ;
 }
 

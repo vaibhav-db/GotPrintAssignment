@@ -8,6 +8,7 @@ import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -66,7 +67,7 @@ public class UserNotesService {
 	 * <p>
 	 * URL /GotPrintUserNotesAssignment/rest/userNotesService/addUserNotes/1 < br />
 	 * @param userId < br/>
-	 * @POST param note  e.g. {"note":"add demo notes", "title":"Title-2" }
+	 * @POST param note  e.g. {"note":"add demo notes", "title":"Title-2" } in JSON format
 	 * < br />
 	 * @return user Notes in JSON format <br />
 	 * </p>
@@ -103,5 +104,72 @@ public class UserNotesService {
 		}
 	}
 
+
+	
+	/**
+	 * <p>
+	 * URL /GotPrintUserNotesAssignment/rest/userNotesService/updateUserNote/1 < br />
+	 * @param userId < br/>
+	 * @POST param note  e.g. {"noteId":1, "note":"22 sdfsdfsd sdfds test", "title":"2-Notes 111" } in JSON format
+	 * < br />
+	 * @return user Notes in JSON format <br />
+	 * </p>
+	 */
+	@PUT
+	 @RolesAllowed("ADMIN")
+	@Path("/updateUserNote/{param}")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public List<Note> updateUserNote(@PathParam("param") String userId, Note note) {
+		System.out.println("note " + note);
+		System.out.println("UserId " + userId);
+		
+		NotesValidation validator = new NotesValidation(); 
+		boolean titleValid = validator.noteTitle(note.getTitle());
+		boolean noteValid = validator.userNotes(note.getNote());
+		
+		if(titleValid  && noteValid){
+		//check user id and note id present in database
+		Note note2 = appDao.getNote(Long.parseLong(userId),note.getNoteId());
+		if(note2  != null){ 
+			note2.setUpdateTime(new Date());
+			copyUserNote(note,note2);
+			appDao.updateUserNotes(note2);
+		return getUserNotes(userId);
+		}else{
+			//No user data found for give user id
+			throw new NotesNotFoundException("{exception:User or notes not found}");
+		}
+		}else {
+			// not valid data
+			throw new NotesNotFoundException("{exception:User Note data not proper}");
+		}
+
+	}
+	
+	/**
+	 * Copy note data
+	 * @param note
+	 * @param note2
+	 */
+	private void copyUserNote(final Note note, Note note2){
+		if(note.getNoteId() != 0){
+			note2.setNoteId(note.getNoteId());
+		}
+		if(note.getTitle() != null){
+		note2.setTitle(note.getTitle());
+		}
+		if(note.getNote() != null){
+			note2.setNote(note.getNote());
+		}
+		if(note.getCreateTime() != null){
+			note2.setCreateTime(note.getCreateTime());
+		}else{
+			note2.setCreateTime(new Date());
+		}if(note.getUser() != null){
+			note2.setNote(note.getNote());
+		}
+		
+	}
 
 }
