@@ -16,5 +16,7 @@ public interface NotesAppDao {
 	public void updateUserNotes(final Note note) ;
 	
 	public Note getNote(long userId, long noteId) ;
+	
+	public void deleteUserNotes(final Note note) ;
 }
 

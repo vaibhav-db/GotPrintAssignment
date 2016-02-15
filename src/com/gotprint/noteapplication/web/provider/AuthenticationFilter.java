@@ -33,7 +33,7 @@
 	    private static final String AUTHORIZATION_PROPERTY = "Authorization";
 	    private static final String AUTHENTICATION_SCHEME = "Basic";
 	    private static final Response ACCESS_DENIED = Response.status(Response.Status.UNAUTHORIZED)
-	    													.entity("You cannot access this resource").build();
+	    													.entity("{\"Authenticate\": \"User not authenticated..\"}").build();
 	    private static final Response ACCESS_FORBIDDEN = Response.status(Response.Status.FORBIDDEN)
 	    													.entity("Access blocked for all users !!").build();
 	     

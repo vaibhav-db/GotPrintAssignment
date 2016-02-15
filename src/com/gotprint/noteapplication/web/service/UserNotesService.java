@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
@@ -58,7 +59,7 @@ public class UserNotesService {
 				return notes2;
 			}else{
 				//No user data found for give user id
-				throw new NotesNotFoundException("{exception:User notes not found}");
+				throw new NotesNotFoundException("{\"exception\":\"User notes not found\"}");
 			}
 			
 	}
@@ -95,12 +96,12 @@ public class UserNotesService {
 		return getUserNotes(userId);
 		}else{
 			//No user data found for give user id
-			throw new NotesNotFoundException("{exception:User not found}");
+			throw new NotesNotFoundException("{\"exception\":\"User not found\"}");
 		}
 		
 		}else {
 			//No user data found for give user id
-			throw new NotesNotFoundException("{exception:Notes data not proper.}");
+			throw new NotesNotFoundException("{\"exception:Notes data not proper.\"}");
 		}
 	}
 
@@ -138,14 +139,46 @@ public class UserNotesService {
 		return getUserNotes(userId);
 		}else{
 			//No user data found for give user id
-			throw new NotesNotFoundException("{exception:User or notes not found}");
+			throw new NotesNotFoundException("{\"exception\":\"User or notes not found\"}");
 		}
 		}else {
 			// not valid data
-			throw new NotesNotFoundException("{exception:User Note data not proper}");
+			throw new NotesNotFoundException("{\"exception\":\"User Note data not proper\"}");
 		}
 
 	}
+	
+	/**
+	 * <p>
+	 * Delete user Note < br/>
+	 * URL /GotPrintUserNoteApplication/rest/userNotesService/deleteUserNote/1 < br />
+	 * @param userId < br/>
+	 * @POST param note  e.g. {"noteId":1}
+	 * < br />
+	 * @return user Notes in JSON format <br />
+	 * </p>
+	 */
+	@DELETE
+	 @RolesAllowed("ADMIN")
+	@Path("/deleteUserNote/{param}")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public List<Note> deleteUserNote(@PathParam("param") String userId, Note note) {
+		System.out.println("note " + note);
+		System.out.println("String " + userId);
+		
+		Note note2 = appDao.getNote(Long.parseLong(userId),note.getNoteId());
+		if(note2  != null){
+			copyUserNote(note,note2);
+			appDao.deleteUserNotes(note2);
+		return getUserNotes(userId);
+		}else{
+			//No user data found for give user id
+			throw new NotesNotFoundException("{\"exception\":\"User or notes not found\"}");
+		}
+
+	}
+
 	
 	/**
 	 * Copy note data

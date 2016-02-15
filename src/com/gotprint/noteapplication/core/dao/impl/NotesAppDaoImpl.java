@@ -76,6 +76,16 @@ public class NotesAppDaoImpl implements NotesAppDao {
 
 	}
 
+	
+	public void deleteUserNotes(final Note note) {
+		Session session = HibernateUtil.getSessionFactory().openSession();
+
+        session.beginTransaction();
+
+        session.delete(note );
+        session.getTransaction().commit();
+	}
+
 
 	
 }
