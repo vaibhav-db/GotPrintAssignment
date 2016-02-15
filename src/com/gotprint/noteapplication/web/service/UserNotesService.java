@@ -54,7 +54,6 @@ public class UserNotesService {
 				//No user data found for give user id
 				throw new NotesNotFoundException("{exception:User notes not found}");
 			}
-			
 	}
 
 }
