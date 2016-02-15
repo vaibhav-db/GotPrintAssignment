@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+                                   "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="com.gotprint.noteapplication.core.dao.hibernate.model.Note"
+		table="GP_NOTE">
+		<id name="noteId" type="java.lang.Long">
+			<column name="note_Id" precision="20" scale="0" />
+			<generator class="increment">
+			</generator>
+		</id>
+		<many-to-one
+			class="com.gotprint.noteapplication.core.dao.hibernate.model.User"
+			 name="user">
+			<column name="USER_ID" not-null="true" precision="20" scale="0" />
+		</many-to-one>
+
+		<property generated="never" lazy="false" name="title" type="string">
+			<column length="50" name="TITLE" />
+		</property>
+
+		<property generated="never" lazy="false" name="note" type="string">
+			<column length="1000" name="NOTE" />
+		</property>
+
+		<property generated="never" lazy="false" name="createTime"
+			type="timestamp">
+			<column length="7" name="CREATE_TIME" not-null="true" />
+		</property>
+		<property generated="never" lazy="false" name="updateTime"
+			type="timestamp">
+			<column length="7" name="UPDATE_TIME" not-null="true" />
+		</property>
+
+	</class>
+
+</hibernate-mapping>

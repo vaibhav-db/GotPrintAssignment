@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+                                   "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="com.gotprint.noteapplication.core.dao.hibernate.model.User"
+		table="GP_USER">
+		<id name="userId" type="java.lang.Long">
+			<column name="USER_ID" precision="20" scale="0" />
+			<generator class="increment">
+			</generator>
+		</id>
+
+		<property generated="never" lazy="false" name="email"
+			type="string" >
+			<column length="100" name="EMAIL" not-null="true"/>
+		</property>
+		<property generated="never" lazy="false" name="Password"
+			type="string">
+			<column length="100" name="PASSWORD" not-null="true"/>
+		</property>
+
+		<property generated="never" lazy="false" name="createTime"
+			type="timestamp" update="false">
+			<column length="7" name="CREATE_TIME" not-null="true" />
+		</property>
+		<property generated="never" lazy="false" name="updateTime"
+			type="timestamp">
+			<column length="7" name="UPDATE_TIME" />
+		</property>
+
+		<set fetch="select" inverse="true" lazy="true" name="notes"
+			order-by="note_Id" sort="unsorted" table="GP_NOTE">
+			<key>
+				<column name="USER_ID" not-null="true" precision="20" scale="0" />
+			</key>
+			<one-to-many
+				class="com.gotprint.noteapplication.core.dao.hibernate.model.Note" />
+		</set>
+
+	</class>
+
+</hibernate-mapping>
